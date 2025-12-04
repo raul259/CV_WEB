@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import LogoLoop from "../components/LogoLoop";
 import ProfileCard from "../components/ProfileCard";
+import IntroLoader from "../components/IntroLoader";
 
 // Registrar el plugin ScrollTrigger
 if (typeof window !== "undefined") {
@@ -12,8 +13,13 @@ if (typeof window !== "undefined") {
 }
 
 export default function Portfolio() {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     console.log("Portfolio useEffect ejecutándose...");
+
+    // No ejecutar nada hasta que termine el loader
+    if (isLoading) return;
 
     // Crear cuadrados de fondo
     function createBackgroundSquares() {
@@ -32,7 +38,6 @@ export default function Portfolio() {
         square.style.animationDelay = `${Math.random() * 5}s`;
         container.appendChild(square);
 
-        // Animación GSAP para los cuadrados de fondo
         gsap.set(square, { opacity: 0, scale: 0 });
 
         gsap.to(square, {
@@ -43,7 +48,6 @@ export default function Portfolio() {
           ease: "power2.out"
         });
 
-        // Animación flotante continua
         gsap.to(square, {
           y: Math.random() * 100 - 50,
           x: Math.random() * 100 - 50,
@@ -59,86 +63,111 @@ export default function Portfolio() {
     // Renderizar habilidades
     function renderSkills() {
       console.log("Ejecutando renderSkills...");
-      const skills = [
-        { name: "HTML5 & CSS3", progress: 90 },
-        { name: "JavaScript", progress: 90 },
-        { name: "React", progress: 60 },
-        { name: "Node.js", progress: 70 },
-        { name: "MySQL", progress: 30 },
-        { name: "Git & GitHub", progress: 90 },
-        { name: "PHP", progress: 30 },
-        { name: "Responsive Design", progress: 65 },
+      
+      const skillCategories = [
+        {
+          title: "Frontend",
+          color: "blue",
+          skills: ["React", "Next.js", "JavaScript (ES6+)", "HTML5/CSS3", "Tailwind CSS"]
+        },
+        {
+          title: "Backend & DB",
+          color: "purple",
+          skills: ["Node.js", "PHP (Basic)", "MySQL", "Supabase"]
+        },
+        {
+          title: "Herramientas",
+          color: "emerald",
+          skills: ["Git & GitHub", "VS Code", "Postman"]
+        }
       ];
-
+    
       const container = document.getElementById("skillsGrid");
       console.log("Skills container:", container);
       if (!container) {
         console.error("No se encontró el container skillsGrid");
         return;
       }
-
+    
+      container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-4";
       container.innerHTML = "";
-      skills.forEach((skill, index) => {
+    
+      skillCategories.forEach((category, categoryIndex) => {
         const card = document.createElement("div");
-        card.className = "skill-card";
+        card.className = `skill-category-card group`;
+        
+        let cardClasses = "";
+        let titleClasses = "";
+        let dotClasses = "";
+        let badgeClasses = "";
+        
+        if (category.color === "blue") {
+          cardClasses = "h-full p-6 rounded-2xl bg-blue-500/10 border-blue-500/20 hover:border-blue-500/40 border backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10";
+          titleClasses = "text-xl font-bold text-blue-400 mb-4 flex items-center gap-2";
+          dotClasses = "inline-block w-2 h-2 rounded-full bg-blue-400";
+          badgeClasses = "px-4 py-2 rounded-full bg-blue-500/10 border-blue-500/30 border hover:bg-blue-500/20 hover:border-blue-400/50 text-gray-200 text-sm font-medium transition-all duration-200 hover:scale-105 cursor-default";
+        } else if (category.color === "purple") {
+          cardClasses = "h-full p-6 rounded-2xl bg-purple-500/10 border-purple-500/20 hover:border-purple-500/40 border backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10";
+          titleClasses = "text-xl font-bold text-purple-400 mb-4 flex items-center gap-2";
+          dotClasses = "inline-block w-2 h-2 rounded-full bg-purple-400";
+          badgeClasses = "px-4 py-2 rounded-full bg-purple-500/10 border-purple-500/30 border hover:bg-purple-500/20 hover:border-purple-400/50 text-gray-200 text-sm font-medium transition-all duration-200 hover:scale-105 cursor-default";
+        } else if (category.color === "emerald") {
+          cardClasses = "h-full p-6 rounded-2xl bg-emerald-500/10 border-emerald-500/20 hover:border-emerald-500/40 border backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10";
+          titleClasses = "text-xl font-bold text-emerald-400 mb-4 flex items-center gap-2";
+          dotClasses = "inline-block w-2 h-2 rounded-full bg-emerald-400";
+          badgeClasses = "px-4 py-2 rounded-full bg-emerald-500/10 border-emerald-500/30 border hover:bg-emerald-500/20 hover:border-emerald-400/50 text-gray-200 text-sm font-medium transition-all duration-200 hover:scale-105 cursor-default";
+        }
+    
         card.innerHTML = `
-          <div class="skill-name">${skill.name}</div>
-          <div class="skill-bar">
-            <div class="skill-progress" style="--progress: ${skill.progress}%"></div>
+          <div class="${cardClasses}">
+            <h3 class="${titleClasses}">
+              <span class="${dotClasses}"></span>
+              ${category.title}
+            </h3>
+            <div class="flex flex-wrap gap-3">
+              ${category.skills.map(skill => `
+                <span class="${badgeClasses}">
+                  ${skill}
+                </span>
+              `).join('')}
+            </div>
           </div>
-          <div class="skill-percentage">${skill.progress}%</div>
         `;
+        
         container.appendChild(card);
-
-        // Animación GSAP para las tarjetas de habilidades
-        gsap.set(card, { opacity: 0, y: 50, scale: 0.9 });
-
+    
+        gsap.set(card, { opacity: 0, y: 50, scale: 0.95 });
+    
         gsap.to(card, {
           opacity: 1,
           y: 0,
           scale: 1,
           duration: 0.6,
-          delay: index * 0.1,
-          ease: "back.out(1.7)",
+          delay: categoryIndex * 0.15,
+          ease: "back.out(1.4)",
           scrollTrigger: {
             trigger: card,
             start: "top 85%",
             toggleActions: "play none none reverse"
           }
         });
-
-        // Animar la barra de progreso
-        const progressBar = card.querySelector(".skill-progress");
-        if (progressBar) {
-          gsap.set(progressBar, { width: "0%" });
-          gsap.to(progressBar, {
-            width: `${skill.progress}%`,
-            duration: 1.5,
-            delay: index * 0.1 + 0.3,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-              toggleActions: "play none none reverse"
-            }
-          });
-        }
-
-        // Animar el porcentaje
-        const percentage = card.querySelector(".skill-percentage");
-        if (percentage) {
-          gsap.set(percentage, { opacity: 0 });
-          gsap.to(percentage, {
+    
+        const badges = card.querySelectorAll('span[class*="px-4"]');
+        badges.forEach((badge, badgeIndex) => {
+          gsap.set(badge, { opacity: 0, scale: 0 });
+          gsap.to(badge, {
             opacity: 1,
-            duration: 0.5,
-            delay: index * 0.1 + 0.8,
+            scale: 1,
+            duration: 0.4,
+            delay: categoryIndex * 0.15 + badgeIndex * 0.05 + 0.2,
+            ease: "back.out(1.7)",
             scrollTrigger: {
               trigger: card,
               start: "top 85%",
               toggleActions: "play none none reverse"
             }
           });
-        }
+        });
       });
     }
 
@@ -147,23 +176,27 @@ export default function Portfolio() {
       console.log("Ejecutando renderProjects...");
       const projects = [
         {
+          title: "SUDÁN FREE",
+          description: "Landing page moderna sobre la crisis humanitaria en Sudán con diseño impactante y responsive.",
+          tags: ["React", "Next.js", "CSS"],
+          image: "/Sudan Free.png",
+          url: "https://landing-sud-n-git-main-raul259s-projects.vercel.app/"
+        },
+        {
           title: "E-Commerce Platform",
-          description:
-            "Tienda online completa con carrito de compras, gestión de productos y panel de administración.",
+          description: "Tienda online completa con carrito de compras, gestión de productos y panel de administración.",
           tags: ["React", "Node.js", "MySQL"],
           emoji: "🛒",
         },
         {
           title: "Task Manager App",
-          description:
-            "Aplicación de gestión de tareas con autenticación, categorías y recordatorios.",
+          description: "Aplicación de gestión de tareas con autenticación, categorías y recordatorios.",
           tags: ["JavaScript", "PHP", "CSS"],
           emoji: "✅",
         },
         {
           title: "Portfolio Personal",
-          description:
-            "Sitio web personal con efectos 3D, animaciones y diseño responsive.",
+          description: "Sitio web personal con efectos 3D, animaciones y diseño responsive.",
           tags: ["HTML", "CSS", "JavaScript"],
           emoji: "💼",
         },
@@ -177,24 +210,27 @@ export default function Portfolio() {
       }
 
       container.innerHTML = "";
-      projects.forEach((project) => {
+      projects.forEach((project, index) => {
         const card = document.createElement("div");
         card.className = "project-card";
+        if (project.url) {
+          card.style.cursor = "pointer";
+          card.addEventListener("click", () => {
+            window.open(project.url, "_blank", "noopener,noreferrer");
+          });
+        }
         card.innerHTML = `
-          <div class="project-image">${project.emoji}</div>
+          <div class="project-image">${project.image ? `<img src="${project.image}" alt="${project.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">` : project.emoji}</div>
           <div class="project-content">
             <div class="project-title">${project.title}</div>
             <div class="project-description">${project.description}</div>
             <div class="project-tags">
-              ${project.tags
-            .map((tag) => `<span class="tag">${tag}</span>`)
-            .join("")}
+              ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
             </div>
           </div>
         `;
         container.appendChild(card);
 
-        // Animación GSAP para las tarjetas de proyectos
         gsap.set(card, { opacity: 0, y: 60, rotateY: 15 });
 
         gsap.to(card, {
@@ -202,7 +238,7 @@ export default function Portfolio() {
           y: 0,
           rotateY: 0,
           duration: 0.8,
-          delay: project === projects[0] ? 0.2 : project === projects[1] ? 0.4 : 0.6,
+          delay: index * 0.2,
           ease: "power2.out",
           scrollTrigger: {
             trigger: card,
@@ -211,50 +247,18 @@ export default function Portfolio() {
           }
         });
 
-        // Animación hover mejorada
         card.addEventListener('mouseenter', () => {
-          gsap.to(card, {
-            scale: 1.05,
-            y: -10,
-            duration: 0.3,
-            ease: "power2.out"
-          });
+          gsap.to(card, { scale: 1.05, y: -10, duration: 0.3, ease: "power2.out" });
         });
 
         card.addEventListener('mouseleave', () => {
-          gsap.to(card, {
-            scale: 1,
-            y: 0,
-            duration: 0.3,
-            ease: "power2.out"
-          });
+          gsap.to(card, { scale: 1, y: 0, duration: 0.3, ease: "power2.out" });
         });
-      });
-    }
-
-    // Crear observer para las secciones
-    function createSectionObserver() {
-      const sections = document.querySelectorAll('section');
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      });
-
-      sections.forEach(section => {
-        observer.observe(section);
       });
     }
 
     // Función para inicializar animaciones GSAP
     function initGSAPAnimations() {
-      // Animación del título principal
       const heroTitle = document.querySelector('.hero-title');
       const heroSubtitle = document.querySelector('.hero-subtitle');
       const scrollIndicator = document.querySelector('.scroll-indicator');
@@ -279,7 +283,6 @@ export default function Portfolio() {
           { opacity: 1, y: 0, duration: 0.6, ease: "bounce.out", delay: 1.3 }
         );
 
-        // Animación continua del indicador
         gsap.to(scrollIndicator, {
           y: 10,
           duration: 1,
@@ -289,9 +292,8 @@ export default function Portfolio() {
         });
       }
 
-      // Animaciones para los títulos de sección
       const sectionTitles = document.querySelectorAll('.section-title');
-      sectionTitles.forEach((title, index) => {
+      sectionTitles.forEach((title) => {
         gsap.fromTo(title,
           { opacity: 0, y: 50, scale: 0.9 },
           {
@@ -309,7 +311,6 @@ export default function Portfolio() {
         );
       });
 
-      // Animación para el texto "Sobre Mí"
       const aboutText = document.querySelector('#sobreMiTexto');
       if (aboutText) {
         gsap.fromTo(aboutText,
@@ -328,7 +329,6 @@ export default function Portfolio() {
         );
       }
 
-      // Animaciones para la timeline de formación
       const timelineItems = document.querySelectorAll('.timeline-item');
       timelineItems.forEach((item, index) => {
         gsap.fromTo(item,
@@ -348,45 +348,15 @@ export default function Portfolio() {
           }
         );
 
-        // Animación hover mejorada para timeline items
         item.addEventListener('mouseenter', () => {
-          gsap.to(item, {
-            x: 15,
-            scale: 1.02,
-            duration: 0.3,
-            ease: "power2.out"
-          });
+          gsap.to(item, { x: 15, scale: 1.02, duration: 0.3, ease: "power2.out" });
         });
 
         item.addEventListener('mouseleave', () => {
-          gsap.to(item, {
-            x: 0,
-            scale: 1,
-            duration: 0.3,
-            ease: "power2.out"
-          });
+          gsap.to(item, { x: 0, scale: 1, duration: 0.3, ease: "power2.out" });
         });
       });
 
-      // Animación para la línea de la timeline
-      const timelineLine = document.querySelector('.timeline::before');
-      if (timelineLine) {
-        gsap.fromTo('.timeline::before',
-          { scaleY: 0, transformOrigin: "top" },
-          {
-            scaleY: 1,
-            duration: 1.2,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: '.timeline',
-              start: "top 80%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-      }
-
-      // Animaciones para la sección de tecnologías
       const logoLoopContainer = document.querySelector('.logo-loop-container');
       if (logoLoopContainer) {
         gsap.fromTo(logoLoopContainer,
@@ -406,7 +376,6 @@ export default function Portfolio() {
       }
     }
 
-    // Asegurar que el DOM esté completamente cargado
     setTimeout(() => {
       console.log("Ejecutando funciones después del timeout...");
       createBackgroundSquares();
@@ -415,11 +384,20 @@ export default function Portfolio() {
       initGSAPAnimations();
     }, 100);
 
-    // Limpiar ScrollTriggers al desmontar
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, []);
+  }, [isLoading]);
+
+  // Manejar el fin del loader
+  const handleLoaderFinish = () => {
+    setIsLoading(false);
+  };
+
+  // Mostrar el loader mientras isLoading sea true
+  if (isLoading) {
+    return <IntroLoader onFinish={handleLoaderFinish} />;
+  }
 
   return (
     <div>
@@ -503,13 +481,16 @@ export default function Portfolio() {
             </div>
             <div className="contact-card">
               <div className="contact-icon">
-                <img src="/Github_White.png" alt="LinkedIn Icon" width="48" height="48" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#00d4ff" width="48px" height="48px">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
               </div>
               <h3>GitHub</h3>
               <p>
-                <a href="https://github.com/raul259" target="_blank" rel="noopener noreferrer"
-                >
-                  github.com/raul259</a></p>
+                <a href="https://github.com/raul259" target="_blank" rel="noopener noreferrer">
+                  github.com/raul259
+                </a>
+              </p>
             </div>
             <div className="contact-card">
               <div className="contact-icon">
@@ -517,10 +498,10 @@ export default function Portfolio() {
               </div>
               <h3>LinkedIn</h3>
               <p>
-                <a href="https://www.linkedin.com/in/ra%C3%BAl-suarez-mendoza-753294362/" target="_blank" rel="noopener noreferrer"
-
-
-                >https://www.linkedin.com/in/ra%C3%BAl-suarez-mendoza-753294362/</a></p>
+                <a href="https://www.linkedin.com/in/ra%C3%BAl-suarez-mendoza-753294362/" target="_blank" rel="noopener noreferrer">
+                  Mi Perfil de LinkedIn
+                </a>
+              </p>
             </div>
           </div>
         </section>
