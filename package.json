@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+     "lint": "next lint",
+    "clean": "rm -rf .next node_modules package-lock.json"
   },
   "keywords": [],
   "author": "",

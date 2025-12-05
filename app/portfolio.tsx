@@ -311,7 +311,7 @@ export default function Portfolio() {
       if (aboutText) {
         const text = aboutText.textContent || '';
         aboutText.textContent = '';
-        aboutText.style.opacity = '1';
+        (aboutText as HTMLElement).style.opacity = '1';
         
         const chars = text.split('');
         let charIndex = 0;
