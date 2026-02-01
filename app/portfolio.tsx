@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import LogoLoop from "../components/LogoLoop";
 import ProfileCard from "../components/ProfileCard";
 import IntroLoader from "../components/IntroLoader";
-import ThemeToggle from "../components/ThemeToggle";
 
 // Registrar el plugin ScrollTrigger
 if (typeof window !== "undefined") {
@@ -191,7 +190,7 @@ export default function Portfolio() {
           url: "https://landing-sud-n-git-main-raul259s-projects.vercel.app/"
         },
         {
-          title: "LLM Chat AI",
+          title: "LLM Chat  AI",
           description: "Aplicación de chat con inteligencia artificial usando modelos de lenguaje avanzados.",
           tags: ["Next.js", "TypeScript", "AI"],
           image: "/llm-chat.png",
@@ -406,9 +405,6 @@ export default function Portfolio() {
 
   return (
     <div>
-      {/* THEME TOGGLE - Botón flotante para cambiar tema */}
-      <ThemeToggle />
-      
       <div className="background-squares" id="bgSquares"></div>
       <div className="content-wrapper">
         <header className="hero">
@@ -440,28 +436,24 @@ export default function Portfolio() {
             </svg>
           </div>
         </header>
-
         <section id="sobre-mi">
           <h2 className="section-title">Sobre Mí</h2>
           <div className="about-content">
             <div className="about-text">
               <p id="sobreMiTexto">
-                Desarrollador junior y estudiante de 2º de DAW. He desarrollado proyectos como una Pokedéx web, sistemas CRUD y aplicaciones responsive. Manejo JavaScript, PHP, MySQL, Bootstrap y GSAP, y actualmente profundizo en tecnologías modernas como Node.js, React, Next.js, Vercel e integración con IA. Mi objetivo es crear soluciones web sólidas, limpias y escalables.
+Desarrollador junior y estudiante de 2º de DAW. He desarrollado proyectos como una Pokedéx web, sistemas CRUD y aplicaciones responsive. Manejo JavaScript, PHP, MySQL, Bootstrap y GSAP, y actualmente profundizo en tecnologías modernas como Node.js, React, Next.js, Vercel e integración con IA. Mi objetivo es crear soluciones web sólidas, limpias y escalables.
               </p>
             </div>
           </div>
         </section>
-
         <section id="habilidades">
           <h2 className="section-title">Habilidades Técnicas</h2>
           <div className="skills-grid" id="skillsGrid"></div>
         </section>
-
         <section id="proyectos">
           <h2 className="section-title">Proyectos Destacados</h2>
           <div className="projects-grid" id="projectsGrid"></div>
         </section>
-
         <section id="formacion">
           <h2 className="section-title">Formación</h2>
           <div className="timeline">

@@ -2,300 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Variables para tema oscuro (por defecto) */
 :root {
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #1a1a2e;
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0a0;
-  --accent-color: #00d4ff;
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --card-border: rgba(0, 212, 255, 0.2);
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #171717;
+  --primary-foreground: #fafafa;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --accent-foreground: #171717;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #171717;
+  --radius: 0.5rem;
 }
 
-/* Variables para tema claro */
-.light-theme {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --text-primary: #1a1a1a;
-  --text-secondary: #666666;
-  --accent-color: #0066cc;
-  --card-bg: rgba(0, 0, 0, 0.03);
-  --card-border: rgba(0, 102, 204, 0.2);
+.dark {
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #0a0a0a;
+  --secondary: #262626;
+  --secondary-foreground: #fafafa;
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+  --accent: #262626;
+  --accent-foreground: #fafafa;
+  --destructive: #dc2626;
+  --destructive-foreground: #fafafa;
+  --border: #262626;
+  --input: #262626;
+  --ring: #d4d4d8;
 }
 
-/* Aplicar variables */
-body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-.light-theme body {
-  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
-}
-
-/* Estilos para el hero en modo claro */
-.light-theme .hero-title {
-  color: var(--accent-color);
-  text-shadow: 
-    0 0 20px rgba(0, 102, 204, 0.6),
-    0 0 40px rgba(0, 102, 204, 0.4),
-    0 3px 8px rgba(0, 0, 0, 0.3);
-}
-
-.light-theme .hero-subtitle {
-  color: var(--text-secondary);
-}
-
-.light-theme .section-title {
-  color: var(--accent-color);
-}
-
-/* Tarjetas en modo claro */
-.light-theme .project-card,
-.light-theme .timeline-item,
-.light-theme .contact-card {
-  background: var(--card-bg);
-  border-color: var(--card-border);
-  backdrop-filter: blur(10px);
-}
-
-.light-theme .project-title {
-  color: var(--accent-color);
-}
-
-.light-theme .project-description,
-.light-theme .timeline-description {
-  color: var(--text-secondary);
-}
-
-.light-theme .bg-square {
-  background: rgba(0, 102, 204, 0.08);
-  border: 1px solid rgba(0, 102, 204, 0.2);
-}
-
-.light-theme .tag {
-  background: rgba(0, 102, 204, 0.15);
-  color: var(--accent-color);
-  border-color: rgba(0, 102, 204, 0.3);
-}
-
-/* Ajustes para las tarjetas de habilidades en modo claro */
-.light-theme .bg-blue-500\/10 {
-  background: rgba(0, 102, 204, 0.08) !important;
-}
-
-.light-theme .border-blue-500\/20 {
-  border-color: rgba(0, 102, 204, 0.2) !important;
-}
-
-.light-theme .text-blue-400 {
-  color: #0066cc !important;
-}
-
-.light-theme .bg-purple-500\/10 {
-  background: rgba(147, 51, 234, 0.08) !important;
-}
-
-.light-theme .border-purple-500\/20 {
-  border-color: rgba(147, 51, 234, 0.2) !important;
-}
-
-.light-theme .text-purple-400 {
-  color: #7c3aed !important;
-}
-
-.light-theme .bg-emerald-500\/10 {
-  background: rgba(16, 185, 129, 0.08) !important;
-}
-
-.light-theme .border-emerald-500\/20 {
-  border-color: rgba(16, 185, 129, 0.2) !important;
-}
-
-.light-theme .text-emerald-400 {
-  color: #10b981 !important;
-}
-
-/* Estilos para el IntroLoader en modo claro */
-.light-theme .bg-cyan-500\/20 {
-  background: rgba(0, 102, 204, 0.2) !important;
-}
-
-.light-theme .border-cyan-500\/10 {
-  border-color: rgba(0, 102, 204, 0.15) !important;
-}
-
-.light-theme .text-cyan-500\/60 {
-  color: rgba(0, 102, 204, 0.7) !important;
-}
-
-.light-theme .text-cyan-400 {
-  color: #0066cc !important;
-}
-
-.light-theme .text-blue-600 {
-  color: #0052a3 !important;
-}
-
-/* Botones hero en modo claro */
-.light-theme .hero-btn-primary {
-  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-  box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
-}
-
-.light-theme .hero-btn-primary:hover {
-  box-shadow: 0 6px 20px rgba(0, 102, 204, 0.6);
-  transform: translateY(-2px);
-}
-
-.light-theme .hero-btn-secondary {
-  border-color: rgba(0, 102, 204, 0.4);
-  color: var(--accent-color);
-}
-
-.light-theme .hero-btn-secondary:hover {
-  background: rgba(0, 102, 204, 0.1);
-  border-color: var(--accent-color);
-}
-
-/* Scroll indicator en modo claro */
-.light-theme .scroll-indicator {
-  color: var(--accent-color);
-  opacity: 0.7;
-}
-
-/* Contact cards en modo claro */
-.light-theme .contact-icon svg {
-  fill: var(--accent-color);
-}
-
-.light-theme .contact-card h3 {
-  color: var(--accent-color);
-}
-
-.light-theme .contact-card p {
-  color: var(--text-secondary);
-}
-
-.light-theme .contact-card a {
-  color: var(--accent-color);
-}
-
-.light-theme .contact-card a:hover {
-  color: #0052a3;
-}
-
-/* Timeline en modo claro */
-.light-theme .timeline-year {
-  color: var(--accent-color);
-  background: rgba(0, 102, 204, 0.1);
-  border-color: rgba(0, 102, 204, 0.3);
-}
-
-.light-theme .timeline-title {
-  color: var(--text-primary);
-}
-
-/* Tech logos en modo claro */
-.light-theme .tech-logo {
-  opacity: 0.9;
-}
-
-.light-theme .tech-logo:hover {
-  opacity: 1;
-}
-
-/* Barra de progreso del loader en modo claro */
-.light-theme .bg-gray-800 {
-  background: #e0e0e0 !important;
-}
-
-.light-theme .shadow-cyan-500\/50 {
-  box-shadow: 0 0 20px rgba(0, 102, 204, 0.5) !important;
-}
-
-/* Gradientes de texto en modo claro */
-.light-theme .bg-gradient-to-r {
-  background: linear-gradient(to right, #0066cc, #0052a3) !important;
-}
-
-/* Animaciones y transiciones */
-.light-theme * {
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* About section en modo claro */
-.light-theme .about-text p {
-  color: var(--text-secondary);
-  line-height: 1.8;
-}
-
-/* Ajustes adicionales para mejor contraste */
-.light-theme .contact-description {
-  color: var(--text-secondary);
-}
-
-.light-theme .section-title::after {
-  background: linear-gradient(to right, transparent, var(--accent-color), transparent);
-}
-
-/* Hero buttons responsivos en modo claro */
-@media (max-width: 768px) {
-  .light-theme .hero-btn-primary,
-  .light-theme .hero-btn-secondary {
-    font-size: 0.9rem;
-    padding: 0.7rem 1.5rem;
+@layer base {
+  * {
+    box-sizing: border-box;
   }
-}
-
-/* Mejoras de accesibilidad en modo claro */
-.light-theme a:focus,
-.light-theme button:focus {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
-}
-
-/* Efectos de hover mejorados en modo claro */
-.light-theme .project-card:hover {
-  box-shadow: 0 10px 30px rgba(0, 102, 204, 0.15);
-  border-color: var(--accent-color);
-}
-
-.light-theme .timeline-item:hover {
-  box-shadow: 0 8px 25px rgba(0, 102, 204, 0.12);
-}
-
-.light-theme .contact-card:hover {
-  box-shadow: 0 8px 25px rgba(0, 102, 204, 0.15);
-  border-color: var(--accent-color);
-}
-
-/* Ajuste para skill badges en hover */
-.light-theme .skill-category-card:hover {
-  box-shadow: 0 8px 25px rgba(0, 102, 204, 0.15);
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Personalización de scrollbar en modo claro */
-.light-theme ::-webkit-scrollbar {
-  width: 10px;
-}
-
-.light-theme ::-webkit-scrollbar-track {
-  background: #f0f0f0;
-}
-
-.light-theme ::-webkit-scrollbar-thumb {
-  background: var(--accent-color);
-  border-radius: 5px;
-}
-
-.light-theme ::-webkit-scrollbar-thumb:hover {
-  background: #0052a3;
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
 }
